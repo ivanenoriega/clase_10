@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <Typography variant="h1" component="h1" className={inter.className}>
-          Clase 10: Material UI
+          Clase 10: Introduccion a Material UI
         </Typography>
         <Card sx={{ padding: 5 }}>
           <Image
