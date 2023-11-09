@@ -1,8 +1,7 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { Card, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,15 +18,22 @@ export default function Home() {
         <Typography variant="h1" component="h1" className={inter.className}>
           Clase 10: Introduccion a Material UI
         </Typography>
-        <Card sx={{ padding: 5 }}>
-          <Image
-            src="/vercel.svg"
-            alt="Vercel Logo"
-            width={72}
-            height={16}
-            className={inter.className}
-          />
-        </Card>
+        <Typography variant="h2">Responsive h3</Typography>
+        <Box sx={{
+          padding: {
+            xs: 2,
+            sm: 4,
+            md: 6,
+            lg: 8,
+            xl: 10
+          },
+          border: '1px solid #ccc',
+        }}>
+          <Button variant="text" size="medium">Text</Button>
+          <Button variant="contained">Contained</Button>
+          <Button variant="outlined">Outlined</Button>
+          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        </Box>
       </main>
     </>
   )
