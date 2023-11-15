@@ -1,11 +1,19 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
+import { SubmitHandler, useForm, FieldValues } from 'react-hook-form'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data)
+
   return (
     <>
       <Head>
@@ -16,24 +24,22 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <Typography variant="h1" component="h1" className={inter.className}>
-          Clase 10: Introduccion a Material UI
+          Clase 12: React Hook Form
         </Typography>
-        <Typography variant="h2">Responsive h3</Typography>
-        <Box sx={{
-          padding: {
-            xs: 2,
-            sm: 4,
-            md: 6,
-            lg: 8,
-            xl: 10
-          },
-          border: '1px solid #ccc',
-        }}>
-          <Button variant="text" size="medium">Text</Button>
-          <Button variant="contained">Contained</Button>
-          <Button variant="outlined">Outlined</Button>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        </Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label>
+            Name
+            <input defaultValue="test" {...register("Name")} />
+          </label>
+
+          <label>
+            Last Name
+            <input {...register("exampleRequired", { required: true })} />
+          </label>
+          {errors.exampleRequired && <span>This field is required</span>}
+
+          <input type="submit" />
+        </form>
       </main>
     </>
   )
