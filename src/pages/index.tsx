@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { Typography } from '@mui/material'
 import { SubmitHandler, useForm, FieldValues } from 'react-hook-form'
+import { isString } from 'util'
+import { useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,9 +12,13 @@ export default function Home() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm()
-  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setShowSuccessMessage(true)
+  }
+  const showNameRequired = errors.name && errors.name?.type === 'required'
 
   return (
     <>
@@ -27,19 +33,27 @@ export default function Home() {
           Clase 12: React Hook Form
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>
-            Name
-            <input defaultValue="test" {...register("Name")} />
-          </label>
-
-          <label>
-            Last Name
-            <input {...register("exampleRequired", { required: true })} />
-          </label>
-          {errors.exampleRequired && <span>This field is required</span>}
-
+          <div>
+            <label>
+              Nombre:
+              <input {...register('name', { required: "Nombre es obligatorio", maxLength: 255, minLength: 3 })} />
+              {showNameRequired && <span>{isString(errors.name?.message) ? errors.name?.message : 'Error'}</span>}
+              {errors.name && errors.name?.type === 'minLength' && <span>El nombre debe tener al menos 3 caracteres</span>}
+              {errors.name && errors.name?.type === 'maxLength' && <span>El nombre debe tener menos de 255 caracteres</span>}
+            </label>
+          </div>
+          <div>
+            <label>
+              Edad:
+              <input {...register('age', { required: true, min: 18, max: 999 })} />
+              {errors.age && errors.age?.type === 'required' && <span>Edad es obligatorio</span>}
+              {errors.age && errors.age?.type === 'min' && <span>La edad debe ser mayor a 18</span>}
+              {errors.age && errors.age?.type === 'max' && <span>La edad debe ser menor a 999</span>}
+            </label>
+          </div>
           <input type="submit" />
         </form>
+        {showSuccessMessage && <span>Formulario enviado correctamente</span>}
       </main>
     </>
   )
