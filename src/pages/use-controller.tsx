@@ -3,13 +3,13 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { Button, Stack, Typography } from '@mui/material'
 import Link from 'next/link'
-import CustomInput from '@/components/CustomInput/CustomInput'
-import { useForm } from 'react-hook-form'
+import FormComplejo from '@/components/FormComplejo/FormComplejo'
+import { FormProvider, useForm } from 'react-hook-form'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { control, handleSubmit } = useForm()
+  const methods = useForm()
   return (
     <>
       <Head>
@@ -39,30 +39,9 @@ export default function Home() {
         <Typography variant="h1" component="h1" sx={{ fontSize: 36 }} className={inter.className}>
           Clase 13: React Hook Form + Material UI (UseController hook)
         </Typography>
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
-          <Stack gap={2} direction={'column'} paddingTop={10}>
-            {/* <Controller
-              control={control}
-              name="name"
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <TextField variant="outlined" onChange={onChange} onBlur={onBlur} value={value} ref={ref} />
-              )}
-            />
-            <Controller
-              control={control}
-              name="last_name"
-              render={({ field }) => {
-                console.log(field)
-                return (
-                  <TextField  variant="outlined" onChange={field.onChange} onBlur={field.onBlur} value={field.value} ref={field.ref} />
-                )
-              }}
-            /> */}
-            <CustomInput name='name' control={control} />
-            <CustomInput name='last_name' control={control} />
-            <input type="submit" />
-          </Stack>
-        </form>
+        <FormProvider {...methods}>
+          <FormComplejo />
+        </FormProvider>
       </main>
     </>
   )
